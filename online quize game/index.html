@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Game</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Quiz Game</h1>
+        <div id="question"></div>
+        <div id="choices" class="btn-group"></div>
+        <button id="submit">Submit</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        // JavaScript code
+        const quizData = [
+            {
+                question: "What is the capital of France?",
+                choices: ["Paris", "London", "Rome", "Berlin"],
+                correctAnswer: "Paris"
+            },
+            {
+                question: "Who wrote 'Romeo and Juliet'?",
+                choices: ["William Shakespeare", "Charles Dickens", "Jane Austen", "Mark Twain"],
+                correctAnswer: "William Shakespeare"
+            },
+            {
+                question: "What is the largest planet in our solar system?",
+                choices: ["Jupiter", "Mars", "Earth", "Saturn"],
+                correctAnswer: "Jupiter"
+            },
+            {
+                question: "What is the main component of the Earth's atmosphere?",
+                choices: ["Nitrogen", "Oxygen", "Carbon dioxide", "Hydrogen"],
+                correctAnswer: "Nitrogen"
+            },
+            {
+                question: "Which scientist is known for his theory of relativity?",
+                choices: ["Isaac Newton", "Albert Einstein", "Galileo Galilei", "Nikola Tesla"],
+                correctAnswer: "Albert Einstein"
+            },
+            {
+                question: "Who painted the Mona Lisa?",
+                choices: ["Leonardo da Vinci", "Pablo Picasso", "Vincent van Gogh", "Michelangelo"],
+                correctAnswer: "Leonardo da Vinci"
+            },
+            {
+                question: "What is the chemical symbol for water?",
+                choices: ["H2O", "CO2", "NaCl", "O2"],
+                correctAnswer: "H2O"
+            }
+            
+            // Add more questions here
+        ];
+
+        const questionElement = document.getElementById("question");
+        const choicesElement = document.getElementById("choices");
+        const submitButton = document.getElementById("submit");
+        const resultElement = document.getElementById("result");
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        function loadQuestion() {
+            const question = quizData[currentQuestion];
+            questionElement.innerText = question.question;
+
+            choicesElement.innerHTML = "";
+            question.choices.forEach(choice => {
+                const button = document.createElement("button");
+                button.innerText = choice;
+                button.classList.add("btn");
+                button.addEventListener("click", () => checkAnswer(choice));
+                choicesElement.appendChild(button);
+            });
+        }
+
+        function checkAnswer(choice) {
+            const question = quizData[currentQuestion];
+            if (choice === question.correctAnswer) {
+                score++;
+                resultElement.innerText = "Correct!";
+            } else {
+                resultElement.innerText = "Wrong!";
+            }
+
+            currentQuestion++;
+            if (currentQuestion < quizData.length) {
+                loadQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            questionElement.innerText = "";
+            choicesElement.innerHTML = "";
+            submitButton.style.display = "none";
+            resultElement.innerText = `You scored ${score}/${quizData.length}`;
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>
+
